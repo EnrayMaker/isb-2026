@@ -7,8 +7,7 @@ def load_sequence(file_path: str) -> str:
     if not os.path.exists(file_path):
         return ""
     with open(file_path, 'r') as f:
-        return f.read().strip()
-
+        return f.read().replace(" ", "").replace("\n", "").strip()
 def frequency_test(sequence: str) -> str:
     """Frequency test function"""
 
@@ -42,10 +41,9 @@ def runs_test(sequence: str) -> str:
         if sequence[i] != sequence[i+1]:
             v_n += 1
 
-    numerator: float = abs(v_n - 2 * n * pi * (1 - pi))
-    denominator: float = 2 * math.sqrt(2 * n) * pi * (1 - pi)
-    s_obs: float = numerator / denominator
-    p_value: float = math.erfc(s_obs)
+    p_value: float = math.erfc(
+            abs(v_n - 2 * n * pi * (1 - pi)) / (2 * math.sqrt(2 * n) * pi * (1 - pi))
+    )
     res: str = f"Test - 2: Runs \n"
     res += f"V_n: {v_n}\n"
     res += f"P-value: {p_value:.6f}\n"

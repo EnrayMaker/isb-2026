@@ -1,15 +1,15 @@
 
 ========== Analysis C++ (cpp_result) ==========
 Test - 1: Frequency 
-Sum (S_n): -5
-Stastics (S_obs): 0.4402
-P-value: erfc(S_obs / sqrt(2)) = 0.659774
+Sum (S_n): -4
+Stastics (S_obs): 0.3536
+P-value: erfc(S_obs / sqrt(2)) = 0.723674
 Test - 2: Runs 
-V_n: 63
-P-value: 0.804565
+V_n: 62
+P-value: 0.731719
 Test - 3: Longest runs
-[<=1, 2, 3, >=4]: [5, 6, 3, 2]
-Chi-squeare: 1.1753
+[<=1, 2, 3, >=4]: [4, 8, 2, 2]
+Chi-squeare: 1.9667
 ========== Analysis Python (python_result) ==========
 Test - 1: Frequency 
 Sum (S_n): 24
