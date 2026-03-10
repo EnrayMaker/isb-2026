@@ -21,10 +21,11 @@ def frequency_test(sequence: str) -> str:
             s_n -= 1
 
     s_obs: float = abs(s_n) / math.sqrt(n)
+    p_value: float = math.erfc(s_obs / math.sqrt(2))
     res: str = f"Test - 1: Frequency \n"
     res += f"Sum (S_n): {s_n}\n"
     res += f"Stastics (S_obs): {s_obs:.4f}\n"
-    res += "P-value: erfc(S_obs / sqrt(2))\n"
+    res += f"P-value: erfc(S_obs / sqrt(2)) = {p_value:.6f}\n"
     return res
 
 def runs_test(sequence: str) -> str:
@@ -44,9 +45,10 @@ def runs_test(sequence: str) -> str:
     numerator: float = abs(v_n - 2 * n * pi * (1 - pi))
     denominator: float = 2 * math.sqrt(2 * n) * pi * (1 - pi)
     s_obs: float = numerator / denominator
+    p_value: float = math.erfc(s_obs)
     res: str = f"Test - 2: Runs \n"
     res += f"V_n: {v_n}\n"
-    res += f"S_obs: {s_obs:.4f}\n"
+    res += f"P-value: {p_value:.6f}\n"
     return res
 
 def longest_run_test(sequence: str) -> str:
