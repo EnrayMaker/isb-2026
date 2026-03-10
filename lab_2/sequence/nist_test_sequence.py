@@ -1,7 +1,6 @@
 import math
 import os
 
-
 def load_sequence(file_path: str) -> str:
     """Open file with sequences and cleaning spaces"""
     if not os.path.exists(file_path):
@@ -27,57 +26,69 @@ def frequency_test(sequence: str) -> str:
     res += f"P-value: erfc(S_obs / sqrt(2)) = {p_value:.6f}\n"
     return res
 
+
 def runs_test(sequence: str) -> str:
     """Runs test"""
-    n: int = len(sequence)
-    ones_count: int = sequence.count('1')
-    pi: float = ones_count / n
+    n = len(sequence)
+    ones_count = sequence.count('1')
+    pi = ones_count / n
 
     if abs(pi - 0.5) >= (2 / math.sqrt(n)):
-        return("Test failed")
+        return "Test - 2: Runs \nP-value: 0.000000\n"
 
     v_n = 1
     for i in range(n - 1):
         if sequence[i] != sequence[i+1]:
             v_n += 1
+    numerator = abs(v_n - 2 * n * pi * (1 - pi))
+    denominator = 2 * math.sqrt(2 * n) * pi * (1 - pi)
+    
+    p_value = math.erfc(numerator / denominator)
 
-    p_value: float = math.erfc(
-            abs(v_n - 2 * n * pi * (1 - pi)) / (2 * math.sqrt(2 * n) * pi * (1 - pi))
-    )
-    res: str = f"Test - 2: Runs \n"
+    res = f"Test - 2: Runs \n"
     res += f"V_n: {v_n}\n"
     res += f"P-value: {p_value:.6f}\n"
     return res
 
-def longest_run_test(sequence: str) -> str:
-    """Longest run test funcion XD"""
 
-    n: int = len(sequence)
+def longest_run_test(sequence: str) -> str:
+    """Longest run test - расчет P-value через math"""
+    n = len(sequence)
     m = 8
     n_blocks = 16
     v = [0, 0, 0, 0]
 
     for i in range(n_blocks):
         block = sequence[i*m : (i+1)*m]
-        max_run = max(len(s) for s in block.split('0'))
+        max_run = 0
+        current_run = 0
+        for bit in block:
+            if bit == '1':
+                current_run += 1
+                max_run = max(max_run, current_run)
+            else:
+                current_run = 0
+        
+        if max_run <= 1: v[0] += 1
+        elif max_run == 2: v[1] += 1
+        elif max_run == 3: v[2] += 1
+        else: v[3] += 1
 
-        if max_run <=1:
-            v[0] += 1
-        elif max_run == 2:
-            v[1] += 1
-        elif max_run == 3:
-            v[2] += 1
-        else:
-            v[3] += 1
-
-    pi = [0.2148, 0.3672, 0.2305, 0.1875]
-
-    x2_obs = 0 
+    pi_const = [0.2148, 0.3672, 0.2305, 0.1875]
+    
+    x2_obs = 0.0
     for i in range(4):
-        x2_obs += ((v[i] - n_blocks * pi[i])**2) / (n_blocks * pi[i])
+        x2_obs += ((v[i] - n_blocks * pi_const[i])**2) / (n_blocks * pi_const[i])
+
+    arg = math.sqrt(x2_obs / 2)
+    p_value = math.erfc(arg) + (math.sqrt(2 * x2_obs / math.pi) * math.exp(-x2_obs / 2))
+    
+    p_value = min(max(p_value, 0.0), 1.0)
+
     res = f"Test - 3: Longest runs\n"
     res += f"[<=1, 2, 3, >=4]: {v}\n"
-    res += f"Chi-squeare: {x2_obs:.4f}"
+    res += f"Chi-square: {x2_obs:.4f}\n"
+    res += f"P-value: {p_value:.6f}\n"
     return res
 
 def run_full_tests():
