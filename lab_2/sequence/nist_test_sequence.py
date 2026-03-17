@@ -87,13 +87,12 @@ def longest_run_test(sequence: str) -> str:
     arg = math.sqrt(x2_obs / 2)
     p_value = math.erfc(arg) + (math.sqrt(2 * x2_obs / math.pi) * math.exp(-x2_obs / 2))
     
-    p_value = min(max(p_value, 0.0), 1.0)
-
     res = f"Test - 3: Longest runs\n"
     res += f"[<=1, 2, 3, >=4]: {v}\n"
     res += f"Chi-square: {x2_obs:.4f}\n"
     res += f"P-value: {p_value:.6f}\n"
     return res
+
 
 def run_full_tests():
     base_path = "../generate/results/"
