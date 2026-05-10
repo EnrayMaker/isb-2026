@@ -12,6 +12,7 @@ import cryptography
 
 log = logger.app_logger
 
+
 if __name__ == '__main__':   
     log.info("App start")
     cfg = env_parser.get_settings()
