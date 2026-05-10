@@ -5,10 +5,11 @@ Version: 0.1
 Date: 10.05.2026
 """
 
-import os
 import modules.logger as logger
 import modules.env_parser as env_parser
-import cryptography
+import modules.generator as generator
+import modules.encryptor as encryptor
+import modules.decryptor as decryptor
 
 log = logger.app_logger
 
@@ -18,11 +19,23 @@ if __name__ == '__main__':
     cfg = env_parser.get_settings()
     
     while True:
+        print("\n--- Hybrid System Menu ---")
         print("\n1. Key Gen | 2. Encrypt | 3. Decrypt | 0. Exit")
-        choise = input(">_< ")
-        if choise == '1': pass
-        elif choise == '2': pass
-        elif choise == '3': pass
-        elif choise == '0': break
+        choice = input(">_< ")
+        if choice == '1':
+            generator.run_gen_keys(
+                cfg['sym_key'], cfg['pub_key'], cfg['priv_key'], cfg['key_size']
+            )
+        elif choice == '2':
+            encryptor.run_encryption(
+                cfg['source'], cfg['priv_key'], cfg['sym_key'], cfg['encrypted']
+            )
+        elif choice == '3':
+            decryptor.run_decryption(
+                cfg['encrypted'], cfg['priv_key'], cfg['sym_key'], cfg['decrypted']
+            )
+        elif choice == '0':
+            log.info("Shutting down...")
+            break        
         else:
             print("Wrong arg")
