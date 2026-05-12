@@ -7,7 +7,14 @@ from modules.file_manager import write_file
 
 def run_gen_keys(sym_key_path: str, pub_key_path: str, priv_key_path: str, key_size_bits: int):
     """
-    Key Generation
+    Scenario 1: Key Generation.
+    Generates a hybrid cryptosystem: a CAST5 symmetric key and an RSA-2048 key pair.
+    The symmetric key is encrypted with the RSA public key and all keys are serialized to files.
+    Args:
+        sym_key_path (str): Path to save the encrypted symmetric key.
+        pub_key_path (str): Path to save the RSA public key (PEM).
+        priv_key_path (str): Path to save the RSA private key (PEM).
+        key_size_bits (int): Key length for CAST5 (40-128 bits).
     """
     try:
         sym_key = os.urandom(key_size_bits // 8)

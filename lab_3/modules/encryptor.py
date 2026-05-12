@@ -8,7 +8,14 @@ from modules.file_manager import read_file, write_file, load_private_key
 
 def run_encryption(source_path: str, priv_key_path: str, enc_sym_key_path: str, output_path: str):
     """
-    Scenario 2: Encryption
+    Scenario 2: Data Encryption.
+    Performs hybrid encryption: decrypts the session key using the RSA private key, 
+    then encrypts the source file using the CAST5 algorithm in CBC mode with ANSIX923 padding.
+    Args:
+        source_path (str): Path to the input plaintext file.
+        priv_key_path (str): Path to the RSA private key (needed for session key recovery).
+        enc_sym_key_path (str): Path to the encrypted CAST5 key.
+        output_path (str): Path to save the resulting ciphertext file.    
     """
     try:
         # Use centralized file management

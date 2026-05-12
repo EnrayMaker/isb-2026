@@ -22,20 +22,22 @@ if __name__ == '__main__':
         print("\n--- Hybrid System Menu ---")
         print("\n1. Key Gen | 2. Encrypt | 3. Decrypt | 0. Exit")
         choice = input(">_< ")
-        if choice == '1':
-            generator.run_gen_keys(
-                cfg['sym_key'], cfg['pub_key'], cfg['priv_key'], cfg['key_size']
-            )
-        elif choice == '2':
-            encryptor.run_encryption(
-                cfg['source'], cfg['priv_key'], cfg['sym_key'], cfg['encrypted']
-            )
-        elif choice == '3':
-            decryptor.run_decryption(
-                cfg['encrypted'], cfg['priv_key'], cfg['sym_key'], cfg['decrypted']
-            )
-        elif choice == '0':
-            log.info("Shutting down...")
-            break        
-        else:
-            print("Wrong arg")
+
+        match choice:
+            case '1':
+                generator.run_gen_keys(
+                    cfg['sym_key'], cfg['pub_key'], cfg['priv_key'], cfg['key_size']
+                )
+            case '2':
+                encryptor.run_encryption(
+                    cfg['source'], cfg['priv_key'], cfg['sym_key'], cfg['encrypted']
+                )
+            case '3':
+                decryptor.run_decryption(
+                    cfg['encrypted'], cfg['priv_key'], cfg['sym_key'], cfg['decrypted']
+                )
+            case '0':
+                log.info("Shutting down...")
+                break
+            case _:
+                print("Wrong arg")

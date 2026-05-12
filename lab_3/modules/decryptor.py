@@ -7,7 +7,14 @@ from modules.file_manager import read_file, write_file, load_private_key
 
 def run_decryption(enc_file_path: str, priv_key_path: str, enc_sym_key_path: str, output_path: str):
     """
-    Scenario 3: Decryption
+    Scenario 3: Data Decryption.
+    Performs hybrid decryption: recovers the session key via RSA private key, 
+    decrypts the ciphertext using CAST5, and removes the ANSIX923 padding.
+    Args:
+        enc_file_path (str): Path to the encrypted data file.
+        priv_key_path (str): Path to the RSA private key.
+        enc_sym_key_path (str): Path to the encrypted CAST5 key.
+        output_path (str): Path to save the restored plaintext file.    
     """
     try:
         private_key = load_private_key(priv_key_path)
